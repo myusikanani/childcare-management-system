@@ -1,0 +1,105 @@
+import React, { useEffect } from 'react';
+
+const SuccessPopup = ({ message, onClose }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onClose();
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div style={styles.overlay}>
+      <div style={styles.popup}>
+        <div style={styles.iconContainer}>
+          <svg viewBox="0 0 52 52" style={styles.checkmark}>
+            <circle 
+              style={{...styles.circle, strokeDasharray: 166, strokeDashoffset: 166, animation: 'fillCircle 0.6s ease-in-out forwards'}} 
+              cx="26" 
+              cy="26" 
+              r="25" 
+              fill="none"
+            />
+            <path 
+              style={{...styles.check, strokeDasharray: 48, strokeDashoffset: 48, animation: 'drawCheck 0.5s 0.3s ease-in-out forwards'}} 
+              fill="none" 
+              d="M14.1 27.2l7.1 7.2 16.7-16.8"
+            />
+          </svg>
+        </div>
+        <h2 style={styles.heading}>{message}</h2>
+        <p style={styles.text}>Redirecting to your dashboard...</p>
+      </div>
+      <style>{`
+        @keyframes fillCircle {
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes drawCheck {
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { transform: translateY(20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+const styles = {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 9999,
+    animation: 'fadeIn 0.3s ease'
+  },
+  popup: {
+    background: 'white',
+    padding: '40px',
+    borderRadius: '16px',
+    textAlign: 'center',
+    animation: 'slideUp 0.5s ease',
+    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+    maxWidth: '400px',
+    width: '90%'
+  },
+  iconContainer: {
+    marginBottom: '20px'
+  },
+  checkmark: {
+    width: '80px',
+    height: '80px'
+  },
+  circle: {
+    stroke: '#4caf50',
+    strokeWidth: 3
+  },
+  check: {
+    stroke: '#4caf50',
+    strokeWidth: 3
+  },
+  heading: {
+    margin: '0 0 12px 0',
+    fontSize: '1.8rem',
+    color: '#2c3e50'
+  },
+  text: {
+    margin: 0,
+    color: '#666',
+    fontSize: '1rem'
+  }
+};
+
+export default SuccessPopup;

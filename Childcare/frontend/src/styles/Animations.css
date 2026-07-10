@@ -1,0 +1,451 @@
+/* ============================================
+   ANIMATIONS.css - Global Interactive Animations
+   Add smooth, modern animations throughout the app
+   ============================================ */
+
+/* ── Button Animations ── */
+.btn, .cta-btn, .nc-btn, .nm-book-btn, .acb-quick-btn, .acb-send {
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn:hover, .cta-btn:hover, .nc-btn:hover, .nm-book-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active, .cta-btn:active, .nc-btn:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+/* ── Card Animations ── */
+.nc, .step-card, .feat-card, .testi-card, .nanny-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nc:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.step-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+}
+
+.feat-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.testi-card:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.nanny-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Avatar Animations ── */
+.nc-avatar, .ppp-avatar, .pe-avatar {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nc:hover .nc-avatar,
+.nanny-card:hover .nanny-avatar {
+    transform: scale(1.15) rotate(5deg);
+}
+
+/* ── Input Animations ── */
+.pe-input, .pe-select, .pe-textarea, .nl-search, .nl-select {
+    transition: all 0.3s ease;
+}
+
+.pe-input:focus, .pe-select:focus, .pe-textarea:focus {
+    transform: scale(1.01);
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+}
+
+.nl-search:focus {
+    transform: scale(1.02);
+}
+
+/* ── Modal Animations ── */
+.nl-modal, .modal, .popup {
+    animation: modalPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalPopIn {
+    from {
+        opacity: 0;
+        transform: scale(0.85) translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ── Card Pop In Animation ── */
+.card-pop {
+    animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes cardPopIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ── Fade In Up Animation ── */
+.fade-in-up {
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Fade In Left Animation ── */
+.fade-in-left {
+    animation: fadeInLeft 0.6s ease;
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ── Fade In Right Animation ── */
+.fade-in-right {
+    animation: fadeInRight 0.6s ease;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ── Scale In Animation ── */
+.scale-in {
+    animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ── Pulse Animation (for notifications) ── */
+.pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 15px rgba(245, 158, 11, 0);
+    }
+}
+
+/* ── Heart Beat Animation ── */
+.heart-beat {
+    animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.3); }
+    70% { transform: scale(1); }
+}
+
+/* ── Shake Animation (for errors) ── */
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* ── Bounce Animation ── */
+.bounce {
+    animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* ── Float Animation ── */
+.float {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+/* ── Spin Animation ── */
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ── Glow Animation ── */
+.glow {
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 5px rgba(245, 158, 11, 0.5),
+                    0 0 10px rgba(245, 158, 11, 0.3);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(245, 158, 11, 0.8),
+                    0 0 30px rgba(245, 158, 11, 0.5);
+    }
+}
+
+/* ── Ripple Effect for Buttons ── */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform 0.5s, opacity 1s;
+}
+
+.ripple:active::after {
+    transform: scale(0, 0);
+    opacity: 0.3;
+    transition: 0s;
+}
+
+/* ── Slide In From Bottom ── */
+.slide-in-bottom {
+    animation: slideInBottom 0.4s ease;
+}
+
+@keyframes slideInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Slide In From Right ── */
+.slide-in-right {
+    animation: slideInRight 0.4s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ── Typing Dots Animation ── */
+.typing-dots span {
+    animation: typingDot 1.4s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+.typing-dots span:nth-child(3) { animation-delay: 0s; }
+
+@keyframes typingDot {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+/* ── Notification Badge Wiggle ── */
+.wiggle {
+    animation: wiggle 1s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+}
+
+/* ── Progress Bar Animation ── */
+.progress-bar {
+    animation: progressFill 1.5s ease-out forwards;
+}
+
+@keyframes progressFill {
+    from { width: 0%; }
+}
+
+/* ── Stagger Animation (for lists) ── */
+.stagger-item {
+    opacity: 0;
+    animation: staggerIn 0.5s ease forwards;
+}
+
+@keyframes staggerIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Hover Lift Effect ── */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Image Zoom on Hover ── */
+.zoom-hover {
+    overflow: hidden;
+}
+
+.zoom-hover img {
+    transition: transform 0.5s ease;
+}
+
+.zoom-hover:hover img {
+    transform: scale(1.1);
+}
+
+/* ── Text Reveal Animation ── */
+.text-reveal {
+    animation: textReveal 0.8s ease forwards;
+}
+
+@keyframes textReveal {
+    from {
+        clip-path: inset(0 100% 0 0);
+    }
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* ── Loading Spinner ── */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(245, 158, 11, 0.2);
+    border-top-color: #F59E0B;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* ── Skeleton Loading ── */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeletonLoading 1.5s infinite;
+}
+
+@keyframes skeletonLoading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ── Success Check Animation ── */
+.success-check {
+    animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes successPop {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* ── Parallax Effect ── */
+.parallax {
+    transition: transform 0.1s ease-out;
+}
+
+/* ── Mobile Touch Feedback ── */
+@media (hover: none) {
+    .btn:active, .cta-btn:active, .nc-btn:active {
+        transform: scale(0.95);
+        opacity: 0.9;
+    }
+    
+    .nc:active {
+        transform: scale(0.98);
+    }
+}

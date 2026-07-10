@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Migration Tool</title>
+    <style>
+        body { font-family: Arial; padding: 40px; background: #1a1a2e; color: white; }
+        h1 { color: #4fc3f7; }
+        .btn { padding: 15px 30px; margin: 10px; font-size: 18px; cursor: pointer; border: none; border-radius: 10px; }
+        .migrate { background: linear-gradient(135deg, #4fc3f7, #43c6ac); color: white; }
+        .clear { background: #ff5252; color: white; }
+        pre { background: #0f0f23; padding: 20px; border-radius: 10px; overflow-x: auto; }
+        #result { margin-top: 20px; padding: 15px; border-radius: 10px; }
+        .success { background: #1b4332; }
+        .error { background: #5c1a1a; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Data Migration Tool</h1>
+    <p>This will move your localStorage data to MongoDB.</p>
+    
+    <button class="btn migrate" onclick="runMigration()">▶️ Run Migration</button>
+    <button class="btn clear" onclick="clearOldData()">🗑️ Clear localStorage (After Migration)</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        async function runMigration() {
+            const result = document.getElementById('result');
+            result.className = '';
+            result.innerHTML = '⏳ Migration started... Please wait...';
+            
+            const token = localStorage.getItem('token');
+            if (!token) {
+                result.className = 'error';
+                result.innerHTML = '❌ ERROR: Please login first!';
+                return;
+            }
+            
+            try {
+                // Migrate Children
+                const children = JSON.parse(localStorage.getItem('childcare_children') || '[]');
+                let migratedChildren = 0;
+                
+                for (const child of children) {
+                    if (!child.migrated) {
+                        const res = await fetch(`${API_BASE}/children`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({
+                                name: child.childName,
+                                age: child.age,
+                                gender: child.gender,
+                                allergies: Array.isArray(child.allergies) ? child.allergies.join(', ') : (child.allergies || 'None'),
+                                notes: child.notes || ''
+                            })
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            child.migrated = true;
+                            migratedChildren++;
+                        }
+                    }
+                }
+                localStorage.setItem('childcare_children', JSON.stringify(children));
+                
+                // Migrate Payment Methods
+                const cards = JSON.parse(localStorage.getItem('payment_cards') || '[]');
+                let migratedCards = 0;
+                
+                for (const card of cards) {
+                    if (!card.migrated) {
+                        const res = await fetch(`${API_BASE}/payment-methods`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({
+                                brand: card.brand,
+                                last4: card.last4,
+                                expiry: card.expiry,
+                                isDefault: card.isDefault
+                            })
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            card.migrated = true;
+                            migratedCards++;
+                        }
+                    }
+                }
+                localStorage.setItem('payment_cards', JSON.stringify(cards));
+                
+                result.className = 'success';
+                result.innerHTML = `<h3>✅ MIGRATION COMPLETE!</h3>
+                    <p>📋 Children migrated: ${migratedChildren}</p>
+                    <p>💳 Payment methods migrated: ${migratedCards}</p>
+                    <p style="color: #ffd700; margin-top: 15px;">Now go to MongoDB Atlas → Browse Collections to verify data!</p>`;
+                    
+            } catch (error) {
+                result.className = 'error';
+                result.innerHTML = '❌ Error: ' + error.message;
+            }
+        }
+        
+        function clearOldData() {
+            if (confirm('This will delete localStorage data. Are you sure?')) {
+                localStorage.removeItem('childcare_children');
+                localStorage.removeItem('payment_cards');
+                alert('✅ localStorage cleared! Refresh the page.');
+            }
+        }
+    </script>
+</body>
+</html>

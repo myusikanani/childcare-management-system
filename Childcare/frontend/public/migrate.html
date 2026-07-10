@@ -1,0 +1,156 @@
+// ─────────────────────────────────────────────────────────────────────
+//  MIGRATION PAGE - Copy this code and paste in browser console
+//  OR save as migrate.html and open in browser
+// ─────────────────────────────────────────────────────────────────────
+
+const API_BASE = 'http://localhost:5000/api';
+const getToken = () => localStorage.getItem('token');
+
+// Get user from localStorage
+const getUser = () => {
+    const userStr = localStorage.getItem('user');
+    return userStr ? JSON.parse(userStr) : null;
+};
+
+async function migrateData() {
+    const token = getToken();
+    const user = getUser();
+    
+    if (!token) {
+        alert('❌ Please LOGIN first before running migration!');
+        return;
+    }
+    
+    console.log('🚀 Starting Migration...');
+    console.log('User:', user?.name, user?.email);
+    
+    // ─── MIGRATE CHILDREN ───
+    console.log('\n📋 Migrating Children...');
+    const localChildren = JSON.parse(localStorage.getItem('childcare_children') || '[]');
+    console.log('Found:', localChildren.length, 'children');
+    
+    for (const child of localChildren) {
+        if (child.migrated) {
+            console.log('⏭️ Already migrated:', child.childName);
+            continue;
+        }
+        
+        try {
+            const res = await fetch(`${API_BASE}/children`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    name: child.childName,
+                    age: child.age,
+                    gender: child.gender,
+                    allergies: child.allergies || 'None',
+                    notes: child.notes || ''
+                })
+            });
+            
+            const data = await res.json();
+            
+            if (data.success) {
+                child.migrated = true;
+                console.log('✅ Migrated:', child.childName);
+            } else {
+                console.log('❌ Failed:', child.childName, data.message);
+            }
+        } catch (error) {
+            console.log('❌ Error:', child.childName, error.message);
+        }
+        
+        // Small delay to avoid rate limiting
+        await new Promise(r => setTimeout(r, 200));
+    }
+    
+    // Save updated localStorage (marks as migrated)
+    localStorage.setItem('childcare_children', JSON.stringify(localChildren));
+    
+    // ─── MIGRATE PAYMENT METHODS ───
+    console.log('\n💳 Migrating Payment Methods...');
+    const localCards = JSON.parse(localStorage.getItem('payment_cards') || '[]');
+    console.log('Found:', localCards.length, 'payment methods');
+    
+    for (const card of localCards) {
+        if (card.migrated || card.fromDB) {
+            console.log('⏭️ Already migrated:', card.brand, card.last4);
+            continue;
+        }
+        
+        try {
+            const res = await fetch(`${API_BASE}/payment-methods`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    brand: card.brand,
+                    last4: card.last4,
+                    expiry: card.expiry,
+                    isDefault: card.isDefault
+                })
+            });
+            
+            const data = await res.json();
+            
+            if (data.success) {
+                card.migrated = true;
+                console.log('✅ Migrated:', card.brand, card.last4);
+            } else {
+                console.log('❌ Failed:', card.brand, card.last4, data.message);
+            }
+        } catch (error) {
+            console.log('❌ Error:', card.brand, error.message);
+        }
+        
+        await new Promise(r => setTimeout(r, 200));
+    }
+    
+    localStorage.setItem('payment_cards', JSON.stringify(localCards));
+    
+    // ─── MIGRATE PENDING BOOKINGS ───
+    console.log('\n📅 Migrating Pending Bookings...');
+    const pendingBooking = localStorage.getItem('pendingBooking');
+    if (pendingBooking) {
+        const booking = JSON.parse(pendingBooking);
+        console.log('Found pending booking:', booking);
+        console.log('⚠️  Pending bookings must be completed through the booking flow');
+        console.log('💡 Please complete or cancel pending bookings manually');
+    } else {
+        console.log('No pending bookings found');
+    }
+    
+    // ─── SUMMARY ───
+    console.log('\n═══════════════════════════════════════');
+    console.log('🎉 MIGRATION COMPLETE!');
+    console.log('═══════════════════════════════════════');
+    console.log('');
+    console.log('Next steps:');
+    console.log('1. Check MongoDB Atlas - data should now be there');
+    console.log('2. Refresh the page - app will use MongoDB data');
+    console.log('3. LocalStorage data kept as backup');
+    console.log('');
+    console.log('To clear old localStorage (optional):');
+    console.log('  localStorage.removeItem("childcare_children")');
+    console.log('  localStorage.removeItem("payment_cards")');
+}
+
+// ─── RUN NOW ───
+console.log('═══════════════════════════════════════');
+console.log('🚀 LOCAL STORAGE → MONGODB MIGRATION');
+console.log('═══════════════════════════════════════');
+console.log('');
+console.log('⚠️  BEFORE RUNNING:');
+console.log('1. Make sure you are LOGGED IN');
+console.log('2. Backend server should be running');
+console.log('');
+console.log('To start migration, type: migrateData()');
+console.log('');
+
+// Auto start
+migrateData();

@@ -1,0 +1,1107 @@
+================================================================================
+CHILDCARE PROJECT - COMPLETE FILE INVENTORY (UPDATED)
+================================================================================
+
+This file contains all the source files from the Childcare project,
+including their names, locations, and complete code (UPDATED VERSION).
+
+================================================================================
+FILE 1: package.json
+LOCATION: Childcare/frontend/package.json
+================================================================================
+
+{
+  "name": "childcare-frontend",
+  "version": "1.0.0",
+  "description": "ChildCare Management System",
+  "private": true,
+  "dependencies": {
+    "lucide-react": "^0.564.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0",
+    "react-scripts": "5.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
+
+================================================================================
+FILE 2: index.html
+LOCATION: Childcare/frontend/public/index.html
+================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#4A90E2" />
+    <meta
+      name="description"
+      content="ChildCare Management System - Safe, Caring, Smart Child Care"
+    />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👶</text></svg>">
+    <title>ChildCare Frontend</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
+
+================================================================================
+FILE 3: index.js (FIXED)
+LOCATION: Childcare/frontend/src/index.js
+================================================================================
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import { AuthProvider } from './context/AuthContext';
+import './index.css';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+);
+
+================================================================================
+FILE 4: App.js
+LOCATION: Childcare/frontend/src/App.js
+================================================================================
+
+// File Path: src/App.js
+// Fixed version - proper BrowserRouter and AuthProvider setup
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import AppRoutes from './routes/AppRoutes';
+
+function App() {
+  return (
+    <div className="App">
+      <Routes>
+        {AppRoutes.map((route, index) => (
+          <Route
+            key={index}
+            path={route.path}
+            element={route.element}
+          />
+        ))}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+
+================================================================================
+FILE 5: AppRoutes.jsx (UPDATED - with lazy loading)
+LOCATION: Childcare/frontend/src/routes/AppRoutes.jsx
+================================================================================
+
+import React, { Suspense, lazy } from 'react';
+import { Navigate } from 'react-router-dom';
+import ProtectedRoute from '../components/common/ProtectedRoute';
+
+const Home = lazy(() => import('../pages/Home'));
+const About = lazy(() => import('../pages/About'));
+const Login = lazy(() => import('../pages/Login'));
+const Signup = lazy(() => import('../pages/Signup'));
+const ParentSignup = lazy(() => import('../pages/ParentSignup'));
+const CaretakerSignup = lazy(() => import('../pages/CaretakerSignup'));
+const AdminSignup = lazy(() => import('../pages/AdminSignup'));
+const ForgotPassword = lazy(() => import('../pages/ForgotPassword'));
+const NannyList = lazy(() => import('../pages/NannyList'));
+const NannySearch = lazy(() => import('../pages/NannySearch'));
+const NannyDetails = lazy(() => import('../pages/NannyDetails'));
+const NannyProfile = lazy(() => import('../pages/NannyProfile'));
+const BookingCalendar = lazy(() => import('../pages/BookingCalendar'));
+const ChildInformation = lazy(() => import('../pages/ChildInformation'));
+const Learning = lazy(() => import('../pages/Learning'));
+const Training = lazy(() => import('../pages/Training'));
+const Progress = lazy(() => import('../pages/Progress'));
+const Childprogresstracker = lazy(() => import('../pages/Childprogresstracker'));
+const Messages = lazy(() => import('../pages/Messages'));
+const MessagingSystem = lazy(() => import('../pages/MessagingSystem'));
+const Notifications = lazy(() => import('../pages/Notifications'));
+const Reviews = lazy(() => import('../pages/Reviews'));
+const Profile = lazy(() => import('../pages/Profile'));
+const ProfileEdit = lazy(() => import('../pages/ProfileEdit'));
+const Payment = lazy(() => import('../pages/Payment'));
+const Payments = lazy(() => import('../pages/Payments'));
+const PaymentBilling = lazy(() => import('../pages/PaymentBilling'));
+const PaymentHistory = lazy(() => import('../pages/PaymentHistory'));
+const Photogallery = lazy(() => import('../pages/Photogallery'));
+const NotFound = lazy(() => import('../pages/NotFound'));
+
+const AdminDashboard = lazy(() => import('../components/dashboard/AdminDashboard'));
+const ParentDashboard = lazy(() => import('../components/dashboard/ParentDashboard'));
+const CaretakerDashboard = lazy(() => import('../components/dashboard/CaretakerDashboard'));
+
+const LoadingFallback = () => (
+  <div style={{
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#F0F7FF',
+    fontFamily: "'Nunito', sans-serif"
+  }}>
+    <div style={{ textAlign: 'center' }}>
+      <span style={{ fontSize: '3rem', display: 'block', marginBottom: '12px', animation: 'bounce 1s ease-in-out infinite' }}>👶</span>
+      <p style={{ color: '#90A4AE', fontWeight: 700, fontSize: '0.9rem' }}>Loading ChildCare...</p>
+    </div>
+  </div>
+);
+
+const AppRoutes = [
+  { path: '/', element: <Suspense fallback={<LoadingFallback />}><Home /></Suspense> },
+  { path: '/about', element: <Suspense fallback={<LoadingFallback />}><About /></Suspense> },
+  { path: '/login', element: <Suspense fallback={<LoadingFallback />}><Login /></Suspense> },
+  { path: '/signup', element: <Suspense fallback={<LoadingFallback />}><Signup /></Suspense> },
+  { path: '/signup/parent', element: <Suspense fallback={<LoadingFallback />}><ParentSignup /></Suspense> },
+  { path: '/signup/caretaker', element: <Suspense fallback={<LoadingFallback />}><CaretakerSignup /></Suspense> },
+  { path: '/signup/admin', element: <Suspense fallback={<LoadingFallback />}><AdminSignup /></Suspense> },
+  { path: '/forgot-password', element: <Suspense fallback={<LoadingFallback />}><ForgotPassword /></Suspense> },
+  { path: '/nannies', element: <Suspense fallback={<LoadingFallback />}><NannyList /></Suspense> },
+  { path: '/nanny-search', element: <Suspense fallback={<LoadingFallback />}><NannySearch /></Suspense> },
+  { path: '/nanny/:id', element: <Suspense fallback={<LoadingFallback />}><NannyDetails /></Suspense> },
+  { path: '/nanny-profile/:id', element: <Suspense fallback={<LoadingFallback />}><NannyProfile /></Suspense> },
+  { path: '/booking', element: <Suspense fallback={<LoadingFallback />}><BookingCalendar /></Suspense> },
+  { path: '/child-information', element: <Suspense fallback={<LoadingFallback />}><ChildInformation /></Suspense> },
+  { path: '/learning', element: <Suspense fallback={<LoadingFallback />}><Learning /></Suspense> },
+  { path: '/training', element: <Suspense fallback={<LoadingFallback />}><Training /></Suspense> },
+  { path: '/progress', element: <Suspense fallback={<LoadingFallback />}><Progress /></Suspense> },
+  { path: '/child-progress', element: <Suspense fallback={<LoadingFallback />}><Childprogresstracker /></Suspense> },
+  { path: '/messages', element: <Suspense fallback={<LoadingFallback />}><Messages /></Suspense> },
+  { path: '/messaging', element: <Suspense fallback={<LoadingFallback />}><MessagingSystem /></Suspense> },
+  { path: '/notifications', element: <Suspense fallback={<LoadingFallback />}><Notifications /></Suspense> },
+  { path: '/reviews', element: <Suspense fallback={<LoadingFallback />}><Reviews /></Suspense> },
+  { path: '/profile', element: <Suspense fallback={<LoadingFallback />}><Profile /></Suspense> },
+  { path: '/profile/edit', element: <Suspense fallback={<LoadingFallback />}><ProfileEdit /></Suspense> },
+  { path: '/payment', element: <Suspense fallback={<LoadingFallback />}><Payment /></Suspense> },
+  { path: '/payments', element: <Suspense fallback={<LoadingFallback />}><Payments /></Suspense> },
+  { path: '/payment-billing', element: <Suspense fallback={<LoadingFallback />}><PaymentBilling /></Suspense> },
+  { path: '/payment-history', element: <Suspense fallback={<LoadingFallback />}><PaymentHistory /></Suspense> },
+  { path: '/photogallery', element: <Suspense fallback={<LoadingFallback />}><Photogallery /></Suspense> },
+  
+  // Dashboards (protected)
+  { path: '/admin-dashboard', element: <ProtectedRoute role="Admin"><Suspense fallback={<LoadingFallback />}><AdminDashboard /></Suspense></ProtectedRoute> },
+  { path: '/parent-dashboard', element: <ProtectedRoute role="Parent"><Suspense fallback={<LoadingFallback />}><ParentDashboard /></Suspense></ProtectedRoute> },
+  { path: '/caretaker-dashboard', element: <ProtectedRoute role="Caretaker"><Suspense fallback={<LoadingFallback />}><CaretakerDashboard /></Suspense></ProtectedRoute> },
+  
+  // Catch all - redirect to home
+  { path: '*', element: <Navigate to="/" replace /> },
+];
+
+export default AppRoutes;
+
+================================================================================
+FILE 6: AuthContext.jsx (UPDATED - new auth logic)
+LOCATION: Childcare/frontend/src/context/AuthContext.jsx
+================================================================================
+
+// File Path: src/context/AuthContext.jsx
+// Description: Updated AuthContext - handles Parent, Caretaker, Admin roles
+
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+const AuthContext = createContext(null);
+
+export const AuthProvider = ({ children }) => {
+  const [user,          setUser]          = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading,       setLoading]       = useState(true);
+
+  /* ── On mount: restore session from localStorage ── */
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('user');
+      const token  = localStorage.getItem('token');
+      if (stored && token) {
+        const parsed = JSON.parse(stored);
+        if (parsed.role) parsed.role = parsed.role.charAt(0).toUpperCase() + parsed.role.slice(1).toLowerCase();
+        setUser(parsed);
+        setIsAuthenticated(true);
+      }
+    } catch (err) {
+      console.error('Session restore error:', err);
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const login = async ({ email, password, role }) => {
+    await new Promise(res => setTimeout(res, 900));
+    const allUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+    const match    = allUsers.find(
+      u => u.email.toLowerCase() === email.toLowerCase() &&
+           u.password             === password &&
+           (u.role || '').toLowerCase() === (role || '').toLowerCase()
+    );
+
+    if (!match) {
+      throw new Error(`No ${role} account found with those credentials.`);
+    }
+
+    const userData = {
+      id:    match.id,
+      name:  match.fullName,
+      email: match.email,
+      role:  match.role ? (match.role.charAt(0).toUpperCase() + match.role.slice(1).toLowerCase()) : match.role,
+      phone: match.phone,
+      hasExperience:   match.hasExperience   || false,
+      experienceYears: match.experienceYears || '',
+      workType:        match.workType        || '',
+    };
+
+    localStorage.setItem('user',  JSON.stringify(userData));
+    localStorage.setItem('token', `mock-token-${match.id}-${Date.now()}`);
+
+    setUser(userData);
+    setIsAuthenticated(true);
+    return { success: true, user: userData };
+  };
+
+  const signup = async (data) => {
+    await new Promise(res => setTimeout(res, 800));
+    const allUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+    const exists = allUsers.find(u => u.email.toLowerCase() === data.email.toLowerCase());
+    if (exists) {
+      throw new Error('An account with this email already exists.');
+    }
+
+    const normalizedRole = data.role ? (data.role.charAt(0).toUpperCase() + data.role.slice(1).toLowerCase()) : data.role;
+
+    const newUser = {
+      id:              Date.now().toString(),
+      fullName:        data.fullName,
+      email:           data.email,
+      password:        data.password,
+      role:            normalizedRole,
+      phone:           data.phone          || '',
+      address:         data.address        || '',
+      bio:             data.bio            || '',
+      skills:          data.skills         || '',
+      certifications:  data.certifications || '',
+      hasExperience:   data.hasExperience  || false,
+      experienceYears: data.experienceYears|| '',
+      workType:        data.workType       || '',
+      joinedAt:        new Date().toISOString(),
+    };
+
+    allUsers.push(newUser);
+    localStorage.setItem('registeredUsers', JSON.stringify(allUsers));
+
+    const userData = {
+      id:    newUser.id,
+      name:  newUser.fullName,
+      email: newUser.email,
+      role:  newUser.role,
+      phone: newUser.phone,
+    };
+
+    localStorage.setItem('user',  JSON.stringify(userData));
+    localStorage.setItem('token', `mock-token-${newUser.id}-${Date.now()}`);
+
+    setUser(userData);
+    setIsAuthenticated(true);
+    return { success: true, user: userData };
+  };
+
+  const logout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    setUser(null);
+    setIsAuthenticated(false);
+    window.location.href = '/login';
+  };
+
+  const updateUser = (updatedData) => {
+    const merged = { ...user, ...updatedData };
+    localStorage.setItem('user', JSON.stringify(merged));
+    setUser(merged);
+    const allUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+    const updated  = allUsers.map(u => u.id === merged.id ? { ...u, ...updatedData } : u);
+    localStorage.setItem('registeredUsers', JSON.stringify(updated));
+  };
+
+  const getDashboardPath = () => {
+    const paths = {
+      Parent:    '/parent-dashboard',
+      Caretaker: '/caretaker-dashboard',
+      Admin:     '/admin-dashboard',
+    };
+    return paths[user?.role] || '/';
+  };
+
+  const value = {
+    user,
+    isAuthenticated,
+    loading,
+    login,
+    signup,
+    logout,
+    updateUser,
+    getDashboardPath,
+    isParent:    user?.role === 'Parent',
+    isCaretaker: user?.role === 'Caretaker',
+    isAdmin:     user?.role === 'Admin',
+  };
+
+  if (loading) {
+    return (
+      <div style={{ minHeight:'100vh', background:'#F0F7FF', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'Nunito',sans-serif" }}>
+        <div style={{ textAlign:'center' }}>
+          <span style={{ fontSize:'3rem', display:'block', marginBottom:'12px', animation:'bounce 1s ease-in-out infinite' }}>👶</span>
+          <p style={{ color:'#90A4AE', fontWeight:700, fontSize:'0.9rem' }}>Loading ChildCare...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used inside AuthProvider');
+  return ctx;
+};
+
+export default AuthContext;
+
+================================================================================
+FILE 7: mockData.js
+LOCATION: Childcare/frontend/src/data/mockData.js
+================================================================================
+
+export const mockData = {
+  children: [
+    { id: 1, name: 'Mily Rose', age: 4, allergies: 'Peanut, Bee Stings', parentId: 1, caretakerId: 1, status: 'happy', avatar: '👧', activities: { meals: { completed: true, time: '12:30 PM' }, napTime: { completed: true, time: '2:00 PM', duration: '1h 30m' }, play: { completed: false, time: '-' } }, attendance: 'present' },
+    { id: 2, name: 'Emma', age: 3, parentId: 2, caretakerId: 1, status: 'happy', avatar: '👶', attendance: 'present' },
+    { id: 3, name: 'Liam', age: 5, parentId: 3, caretakerId: 2, status: 'sleeping', avatar: '👦', attendance: 'present' },
+    { id: 4, name: 'Aidan', age: 3, parentId: 4, caretakerId: 2, status: 'sleeping', avatar: '👶', attendance: 'present' },
+    { id: 5, name: 'Aiden', age: 4, parentId: 5, caretakerId: 3, status: 'playing', avatar: '👦', attendance: 'present' }
+  ],
+  parents: [{ id: 1, name: 'Mily Rose', email: 'mily.rose@email.com', phone: '04 123', childrenIds: [1] }],
+  caretakers: [
+    { id: 1, name: 'Emma Johnson', childrenCount: 2 },
+    { id: 2, name: 'Sarah Williams', childrenCount: 2 },
+    { id: 3, name: 'Michael Brown', childrenCount: 1 }
+  ],
+  stats: { happyKids: 500, activities: 50, teachers: 10, locations: 10 },
+  liveUpdates: [
+    { id: 1, childName: 'Lily', activity: 'Playing in the yard', time: '10 mins ago', avatar: '👧' },
+    { id: 2, childName: 'Lucas', activity: 'Sleeping', time: '25 mins ago', avatar: '👦' },
+    { id: 3, childName: 'Oliver', activity: 'Happy in class', time: '40 mins ago', avatar: '👶' },
+    { id: 4, childName: 'Oliver', activity: 'tucking in the cot', time: '1 hour ago', avatar: '👶' }
+  ],
+  testimonials: [
+    { id: 1, icon: '🛡️', title: 'Safe', description: 'Latest cause find educationalists Well-loved by passionate volunteers' },
+    { id: 2, icon: '💚', title: 'Caring', description: 'They gave us providing amazing offers users in unlimited greatfuls' },
+    { id: 3, icon: '🧠', title: 'Smart', description: 'Latest thing permanent colors customizing rich interface it digitize' }
+  ],
+  enrollmentData: { months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], values: [30, 45, 35, 50, 40, 55] },
+  staffDistribution: { teachers: 40, assistants: 30, admin: 20, support: 10 }
+};
+
+export const statusColors = { happy: '#66D9A8', sleeping: '#5AB8E8', playing: '#A094E4', sick: '#FF6B6B' };
+export const activityIcons = { meals: '🍽️', napTime: '😴', play: '🎮', art: '🎨', music: '🎵', outdoor: '🌳' };
+
+================================================================================
+FILE 8: Login.jsx (UPDATED - new modern UI)
+LOCATION: Childcare/frontend/src/pages/Login.jsx
+================================================================================
+
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+const injectCSS = () => {
+  if (document.getElementById('login-v2-styles')) return;
+  const style = document.createElement('style');
+  style.id = 'login-v2-styles';
+  style.textContent = `
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap');
+    .lv-root { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; background: linear-gradient(135deg, #43C6AC 0%, #4FC3F7 50%, #CE93D8 100%); font-family: 'Quicksand', sans-serif; position: relative; overflow: hidden; }
+    .lv-blob { position:absolute; border-radius:50%; filter:blur(70px); opacity:0.35; pointer-events:none; }
+    .lv-blob-1 { width:400px;height:400px;background:#BAE6FD;top:-100px;left:-80px;animation:lvDrift 12s ease-in-out infinite; }
+    .lv-blob-2 { width:350px;height:350px;background:#BBF7D0;bottom:-80px;right:-60px;animation:lvDrift 10s ease-in-out infinite reverse; }
+    .lv-blob-3 { width:250px;height:250px;background:#FEE2E2;top:40%;left:60%;animation:lvDrift 14s ease-in-out infinite; }
+    @keyframes lvDrift { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,-30px) scale(1.1)} }
+    .lv-emoji { position:absolute; font-size:2rem; opacity:0.18; pointer-events:none; animation:lvFloat 6s ease-in-out infinite; }
+    .lve1{top:8%;left:6%;animation-delay:0s;} .lve2{top:15%;right:8%;animation-delay:1s;} .lve3{bottom:20%;left:5%;animation-delay:2s;} .lve4{bottom:12%;right:6%;animation-delay:1.5s;}
+    @keyframes lvFloat { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-18px) rotate(5deg)} }
+    .lv-card { background: white; border-radius: 28px; width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 32px 80px rgba(26,35,126,0.2); position: relative; z-index: 1; animation: lvPop 0.5s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes lvPop { from{opacity:0;transform:scale(0.9) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
+    .lv-banner { background: linear-gradient(135deg,#43C6AC,#4FC3F7); padding: 26px 32px 22px; text-align: center; position: relative; overflow: hidden; }
+    .lv-banner::before { content:''; position:absolute; top:-40px; right:-40px; width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,0.1); }
+    .lv-logo { font-family:'Baloo 2',cursive; font-size:1.8rem; font-weight:800; color:white; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:4px; }
+    .lv-banner p { color:rgba(255,255,255,0.85); font-size:0.88rem; }
+    .lv-timer-bar { height:3px; background:#E2E8F0; overflow:hidden; }
+    .lv-timer-fill { height:100%; background:linear-gradient(90deg,#43C6AC,#4FC3F7); border-radius:999px; transition:width 1s linear; }
+    .lv-body { padding: 24px 32px 20px; }
+    .lv-section-title { font-family:'Baloo 2',cursive; font-size:1.05rem; font-weight:800; color:#0F172A; margin-bottom:14px; text-align:center; }
+    .lv-roles { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:22px; }
+    .lv-role { border:2px solid #E2E8F0; border-radius:16px; padding:14px 6px; text-align:center; cursor:pointer; background:#F8FAFC; transition:all 0.25s cubic-bezier(.34,1.56,.64,1); }
+    .lv-role:hover { border-color:#4FC3F7; transform:translateY(-3px); background:#F0F9FF; }
+    .lv-role.selected { border-color:#0EA5E9; background:linear-gradient(135deg,#F0F9FF,#F0FDF4); box-shadow:0 6px 18px rgba(14,165,233,0.2); transform:translateY(-3px) scale(1.03); }
+    .lv-role-emoji { font-size:2rem; display:block; margin-bottom:6px; }
+    .lv-role-name  { font-weight:800; font-size:0.82rem; color:#0F172A; }
+    .lv-role-desc  { font-size:0.7rem; color:#94A3B8; margin-top:2px; }
+    .lv-role-check { width:18px;height:18px;border-radius:50%;background:#0EA5E9;color:white;font-size:0.65rem;display:flex;align-items:center;justify-content:center;margin:6px auto 0;transform:scale(0);transition:transform 0.2s cubic-bezier(.34,1.56,.64,1); }
+    .lv-role.selected .lv-role-check { transform:scale(1); }
+    .lv-divider { display:flex;align-items:center;gap:10px;margin-bottom:16px;color:#94A3B8;font-size:0.78rem;font-weight:600; }
+    .lv-divider::before,.lv-divider::after { content:'';flex:1;height:1px;background:#E2E8F0; }
+    .lv-field { margin-bottom:14px; }
+    .lv-label { display:block;font-weight:800;font-size:0.76rem;color:#475569;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px; }
+    .lv-input { width:100%;padding:12px 16px;border:2px solid #E2E8F0;border-radius:12px;font-family:'Quicksand',sans-serif;font-size:0.92rem;font-weight:600;color:#0F172A;background:#F8FAFC;outline:none;transition:all 0.2s;box-sizing:border-box; }
+    .lv-input:focus { border-color:#4FC3F7;background:white;box-shadow:0 0 0 4px rgba(79,195,247,0.12); }
+    .lv-input.error { border-color:#EF4444;background:#FFF1F2; }
+    .lv-pw-wrap { position:relative; }
+    .lv-pw-eye { position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:#94A3B8; }
+    .lv-error { background:#FFF1F2;border:1.5px solid #FECDD3;border-radius:12px;padding:10px 14px;margin-bottom:14px;color:#E11D48;font-weight:700;font-size:0.83rem;display:flex;align-items:center;gap:8px;animation:lvShake 0.4s ease; }
+    @keyframes lvShake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-7px)} 75%{transform:translateX(7px)} }
+    .lv-btn { width:100%;padding:13px;border-radius:999px;border:none;background:linear-gradient(135deg,#43C6AC,#4FC3F7);color:white;font-family:'Quicksand',sans-serif;font-size:0.98rem;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(67,198,172,0.4);transition:all 0.25s;position:relative;overflow:hidden;margin-top:6px; }
+    .lv-btn::after { content:'';position:absolute;inset:0;background:rgba(255,255,255,0.2);transform:translateX(-100%);transition:transform 0.4s; }
+    .lv-btn:hover::after { transform:translateX(100%); }
+    .lv-btn:hover { transform:translateY(-2px);box-shadow:0 10px 28px rgba(67,198,172,0.5); }
+    .lv-btn:disabled { opacity:0.6;cursor:not-allowed;transform:none; }
+    .lv-spinner { display:inline-block;width:15px;height:15px;border:3px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:lvSpin 0.7s linear infinite;margin-right:8px;vertical-align:middle; }
+    @keyframes lvSpin { to{transform:rotate(360deg)} }
+    .lv-form-slide { animation:lvSlide 0.3s ease; }
+    @keyframes lvSlide { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+    .lv-footer { padding:0 32px 24px; }
+    .lv-signup-box { background:linear-gradient(135deg,#F0FDF4,#F0F9FF);border:1.5px solid #BBF7D0;border-radius:16px;padding:16px;text-align:center; }
+    .lv-signup-label { font-size:0.85rem;color:#64748B;font-weight:700;margin-bottom:10px; }
+    .lv-signup-btns { display:flex;gap:8px;justify-content:center;flex-wrap:wrap; }
+    .lv-signup-btn { padding:8px 16px;border-radius:999px;font-family:'Quicksand',sans-serif;font-size:0.8rem;font-weight:800;text-decoration:none;transition:all 0.2s; }
+    .lv-sb-parent    { background:#0EA5E9;color:white; } .lv-sb-parent:hover { background:#0284C7;transform:translateY(-2px); }
+    .lv-sb-care      { background:#34D399;color:white; } .lv-sb-care:hover { background:#059669;transform:translateY(-2px); }
+    .lv-sb-admin     { background:#F59E0B;color:white; } .lv-sb-admin:hover { background:#D97706;transform:translateY(-2px); }
+    .lv-overlay { position:fixed;inset:0;z-index:500;background:rgba(15,23,42,0.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px;animation:lvFadeIn 0.3s ease; }
+    @keyframes lvFadeIn { from{opacity:0} to{opacity:1} }
+    .lv-popup { background:white;border-radius:28px;max-width:460px;width:100%;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.3);animation:lvSpring 0.45s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes lvSpring { from{opacity:0;transform:scale(0.85) translateY(24px)} to{opacity:1;transform:scale(1) translateY(0)} }
+    .lv-popup-top { background:linear-gradient(135deg,#43C6AC,#4FC3F7,#CE93D8);padding:26px;text-align:center;position:relative;overflow:hidden; }
+    .lv-popup-top::before { content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,0.1); }
+    .lv-popup-emoji { font-size:3.2rem;display:block;margin-bottom:8px;animation:lvWave 2s ease-in-out infinite; }
+    @keyframes lvWave { 0%,100%{transform:rotate(-8deg) translateY(0)} 50%{transform:rotate(8deg) translateY(-8px)} }
+    .lv-popup-top h2 { font-family:'Baloo 2',cursive;font-size:1.5rem;font-weight:800;color:white;margin-bottom:4px; }
+    .lv-popup-top p { color:rgba(255,255,255,0.85);font-size:0.85rem; }
+    .lv-popup-body { padding:24px; }
+    .lv-popup-body h3 { font-family:'Baloo 2',cursive;font-size:0.95rem;font-weight:800;color:#0F172A;margin-bottom:14px;text-align:center; }
+    .lv-popup-opts { display:flex;flex-direction:column;gap:10px;margin-bottom:16px; }
+    .lv-popup-opt { display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:14px;border:2px solid #E2E8F0;background:#F8FAFC;text-decoration:none;transition:all 0.2s;cursor:pointer; }
+    .lv-popup-opt:hover { transform:translateX(5px); }
+    .lv-po-parent:hover { border-color:#0EA5E9;background:#F0F9FF; }
+    .lv-po-care:hover   { border-color:#34D399;background:#F0FDF4; }
+    .lv-po-admin:hover  { border-color:#F59E0B;background:#FFFBEB; }
+    .lv-po-icon { width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0; }
+    .lv-po-parent-ic { background:linear-gradient(135deg,#BAE6FD,#7DD3FC); }
+    .lv-po-care-ic   { background:linear-gradient(135deg,#BBF7D0,#6EE7B7); }
+    .lv-po-admin-ic  { background:linear-gradient(135deg,#FEF3C7,#FDE68A); }
+    .lv-po-title { font-weight:800;font-size:0.88rem;color:#0F172A; }
+    .lv-po-desc  { font-size:0.73rem;color:#64748B;margin-top:1px; }
+    .lv-po-arrow { margin-left:auto;color:#CBD5E1;font-size:0.9rem; }
+    .lv-popup-back { width:100%;padding:11px;border-radius:999px;border:2px solid #E2E8F0;background:white;font-family:'Quicksand',sans-serif;font-size:0.85rem;font-weight:700;color:#64748B;cursor:pointer;transition:all 0.2s; }
+    .lv-popup-back:hover { border-color:#4FC3F7;color:#0EA5E9; }
+    .lv-popup-timer { text-align:center;font-size:0.73rem;color:#94A3B8;font-weight:600;margin-top:8px; }
+  `;
+  document.head.appendChild(style);
+};
+
+const ROLES = [
+  { key:'parent',    emoji:'👨‍👩‍👧', name:'Parent',    desc:'I need childcare' },
+  { key:'caretaker', emoji:'👩‍🍼',   name:'Caretaker', desc:'I provide care'   },
+  { key:'admin',     emoji:'🔐',    name:'Admin',     desc:'Platform admin'   },
+];
+
+export default function Login() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login, getDashboardPath } = useAuth();
+
+  const [selectedRole, setSelectedRole] = useState('');
+  const [email, setEmail]               = useState('');
+  const [password, setPassword]         = useState('');
+  const [showPw, setShowPw]             = useState(false);
+  const [error, setError]               = useState('');
+  const [loading, setLoading]           = useState(false);
+  const [timerPct, setTimerPct]         = useState(100);
+  const [showPopup, setShowPopup]       = useState(false);
+  const [dismissIn, setDismissIn]       = useState(8);
+  const mainTimer  = useRef(null);
+  const popupTimer = useRef(null);
+
+  useEffect(() => {
+    injectCSS();
+    let elapsed = 0;
+    mainTimer.current = setInterval(() => {
+      elapsed += 1;
+      setTimerPct(Math.max(0, 100 - (elapsed / 20) * 100));
+      if (elapsed >= 20) {
+        clearInterval(mainTimer.current);
+        setShowPopup(true);
+      }
+    }, 1000);
+    return () => { clearInterval(mainTimer.current); clearInterval(popupTimer.current); };
+  }, []);
+
+  useEffect(() => {
+    if (!showPopup) return;
+    setDismissIn(8);
+    popupTimer.current = setInterval(() => {
+      setDismissIn(prev => {
+        if (prev <= 1) { clearInterval(popupTimer.current); setShowPopup(false); return 0; }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(popupTimer.current);
+  }, [showPopup]);
+
+  const closePopup = () => { clearInterval(popupTimer.current); setShowPopup(false); };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+    if (!selectedRole) { setError('Please select who you are logging in as.'); return; }
+    if (!email.trim()) { setError('Please enter your email address.'); return; }
+    if (!password)     { setError('Please enter your password.'); return; }
+    setLoading(true);
+    try {
+      const capitalizedRole = selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1);
+      await login({ email, password, role: capitalizedRole });
+      const dest = location.state?.from?.pathname || getDashboardPath();
+      navigate(dest, { replace: true });
+    } catch (err) {
+      setError(err.message || 'Invalid email, password, or role. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="lv-root">
+      <div className="lv-blob lv-blob-1" /><div className="lv-blob lv-blob-2" /><div className="lv-blob lv-blob-3" />
+      <div className="lv-emoji lve1">🌟</div><div className="lv-emoji lve2">🎈</div><div className="lv-emoji lve3">🌈</div><div className="lv-emoji lve4">🎉</div><div className="lv-emoji lve5">🦋</div><div className="lv-emoji lve6">🌸</div>
+      <div className="lv-card">
+        <div className="lv-banner">
+          <div className="lv-logo">🌟 ChildCare</div>
+          <p>Welcome back! Sign in to your account</p>
+        </div>
+        <div className="lv-timer-bar"><div className="lv-timer-fill" style={{ width:`${timerPct}%` }} /></div>
+        <div className="lv-body">
+          <div className="lv-section-title">Who are you logging in as?</div>
+          <div className="lv-roles">
+            {ROLES.map(r => (
+              <div key={r.key} className={`lv-role ${selectedRole === r.key ? 'selected' : ''}`} onClick={() => { setSelectedRole(r.key); setError(''); }}>
+                <span className="lv-role-emoji">{r.emoji}</span>
+                <div className="lv-role-name">{r.name}</div>
+                <div className="lv-role-desc">{r.desc}</div>
+                <div className="lv-role-check">✓</div>
+              </div>
+            ))}
+          </div>
+          {selectedRole && (
+            <div className="lv-form-slide">
+              <div className="lv-divider">{ROLES.find(r=>r.key===selectedRole)?.emoji}&nbsp;Sign in as {selectedRole.charAt(0).toUpperCase()+selectedRole.slice(1)}</div>
+              {error && <div className="lv-error">⚠️ {error}</div>}
+              <form onSubmit={handleLogin}>
+                <div className="lv-field">
+                  <label className="lv-label">Email Address</label>
+                  <input className={`lv-input ${error?'error':''}`} type="email" placeholder="your@email.com" value={email} onChange={e=>{setEmail(e.target.value);setError('');}} />
+                </div>
+                <div className="lv-field">
+                  <label className="lv-label">Password</label>
+                  <div className="lv-pw-wrap">
+                    <input className={`lv-input ${error?'error':''}`} type={showPw?'text':'password'} placeholder="Enter your password" value={password} onChange={e=>{setPassword(e.target.value);setError('');}} style={{paddingRight:44}} />
+                    <button type="button" className="lv-pw-eye" onClick={()=>setShowPw(v=>!v)}>{showPw?'🙈':'👁️'}</button>
+                  </div>
+                </div>
+                <button type="submit" className="lv-btn" disabled={loading}>
+                  {loading ? <><span className="lv-spinner"/>Signing in...</> : `🚀 Login as ${selectedRole.charAt(0).toUpperCase()+selectedRole.slice(1)}`}
+                </button>
+              </form>
+            </div>
+          )}
+        </div>
+        <div className="lv-footer">
+          <div className="lv-signup-box">
+            <div className="lv-signup-label">🆕 First time? Create your account first!</div>
+            <div className="lv-signup-btns">
+              <Link to="/signup/parent"    className="lv-signup-btn lv-sb-parent">👨‍👩‍👧 Parent</Link>
+              <Link to="/signup/caretaker" className="lv-signup-btn lv-sb-care">👩‍🍼 Caretaker</Link>
+              <Link to="/signup/admin"     className="lv-signup-btn lv-sb-admin">🔐 Admin</Link>
+            </div>
+          </div>
+        </div>
+      </div>
+      {showPopup && (
+        <div className="lv-overlay" onClick={closePopup}>
+          <div className="lv-popup" onClick={e=>e.stopPropagation()}>
+            <div className="lv-popup-top">
+              <span className="lv-popup-emoji">👋</span>
+              <h2>First Time Here?</h2>
+              <p>You need to create an account before logging in!</p>
+            </div>
+            <div className="lv-popup-body">
+              <h3>Choose how you want to sign up:</h3>
+              <div className="lv-popup-opts">
+                <Link to="/signup/parent" className="lv-popup-opt lv-po-parent" onClick={closePopup}>
+                  <div className="lv-po-icon lv-po-parent-ic">👨‍👩‍👧</div>
+                  <div><div className="lv-po-title">Sign up as Parent</div><div className="lv-po-desc">Find & book trusted caretakers for your child</div></div>
+                  <span className="lv-po-arrow">→</span>
+                </Link>
+                <Link to="/signup/caretaker" className="lv-popup-opt lv-po-care" onClick={closePopup}>
+                  <div className="lv-po-icon lv-po-care-ic">👩‍🍼</div>
+                  <div><div className="lv-po-title">Sign up as Caretaker</div><div className="lv-po-desc">Join & start earning by caring for children</div></div>
+                  <span className="lv-po-arrow">→</span>
+                </Link>
+                <Link to="/signup/admin" className="lv-popup-opt lv-po-admin" onClick={closePopup}>
+                  <div className="lv-po-icon lv-po-admin-ic">🔐</div>
+                  <div><div className="lv-po-title">Admin Access</div><div className="lv-po-desc">Create admin account with secret code</div></div>
+                  <span className="lv-po-arrow">→</span>
+                </Link>
+              </div>
+              <button className="lv-popup-back" onClick={closePopup}>← I already have an account — go back to Login</button>
+              <div className="lv-popup-timer">Closes automatically in {dismissIn} seconds</div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+================================================================================
+FILE 9: CaretakerSignup.jsx (UPDATED - new modern UI)
+LOCATION: Childcare/frontend/src/pages/CaretakerSignup.jsx
+================================================================================
+
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+const injectCSS = () => {
+  if (document.getElementById('caretaker-signup-styles')) return;
+  const style = document.createElement('style');
+  style.id = 'caretaker-signup-styles';
+  style.textContent = `
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700;800&family=Quicksand:wght@400;500;600;700&display=swap');
+    .cs-root { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; background:linear-gradient(135deg,#34D399 0%,#059669 50%,#0EA5E9 100%); font-family:'Quicksand',sans-serif; position:relative; overflow:hidden; }
+    .cs-blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:0.3;pointer-events:none;}
+    .cs-blob-1{width:380px;height:380px;background:#BBF7D0;top:-80px;left:-60px;animation:csDrift 11s ease-in-out infinite;}
+    .cs-blob-2{width:300px;height:300px;background:#BAE6FD;bottom:-60px;right:-40px;animation:csDrift 9s ease-in-out infinite reverse;}
+    @keyframes csDrift{0%,100%{transform:translate(0,0)}50%{transform:translate(25px,-25px)}}
+    .cs-card { background:white; border-radius:28px; overflow:hidden; width:100%; max-width:960px; box-shadow:0 32px 80px rgba(0,0,0,0.18); display:grid; grid-template-columns:340px 1fr; position:relative; z-index:1; animation:csIn 0.5s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes csIn{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+    .cs-left { background:linear-gradient(160deg,#059669,#0EA5E9); padding:44px 32px; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+    .cs-left::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.1);}
+    .cs-left-emoji{font-size:3.2rem;margin-bottom:18px;animation:csWig 3s ease-in-out infinite;}
+    @keyframes csWig{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+    .cs-left h2{font-family:'Baloo 2',cursive;font-size:1.7rem;font-weight:800;color:white;margin-bottom:10px;}
+    .cs-left p{color:rgba(255,255,255,0.82);font-size:0.88rem;line-height:1.6;margin-bottom:24px;}
+    .cs-feat{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+    .cs-feat-icon{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:0.95rem;flex-shrink:0;}
+    .cs-feat-text{color:rgba(255,255,255,0.9);font-size:0.83rem;font-weight:600;}
+    .cs-left-footer{margin-top:auto;padding-top:24px;color:rgba(255,255,255,0.7);font-size:0.82rem;}
+    .cs-left-footer a{color:white;font-weight:800;}
+    .cs-right{padding:40px;overflow-y:auto;}
+    .cs-steps{display:flex;align-items:center;margin-bottom:28px;}
+    .cs-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:800;transition:all 0.3s;}
+    .cs-dot.done{background:#34D399;color:white;}
+    .cs-dot.active{background:#059669;color:white;box-shadow:0 0 0 4px rgba(5,150,105,0.2);}
+    .cs-dot.pending{background:#F1F5F9;color:#94A3B8;}
+    .cs-line{flex:1;height:2px;background:#E2E8F0;margin:0 8px;transition:background 0.3s;}
+    .cs-line.done{background:#34D399;}
+    .cs-title{font-family:'Baloo 2',cursive;font-size:1.5rem;font-weight:800;color:#0F172A;margin-bottom:6px;}
+    .cs-sub{color:#64748B;font-size:0.88rem;margin-bottom:24px;}
+    .cs-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+    .cs-field{margin-bottom:14px;}
+    .cs-label{display:block;font-weight:800;font-size:0.76rem;color:#475569;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;}
+    .cs-input,.cs-select,.cs-textarea{width:100%;padding:11px 14px;border:2px solid #E2E8F0;border-radius:12px;font-family:'Quicksand',sans-serif;font-size:0.9rem;font-weight:600;color:#0F172A;background:#F8FAFC;outline:none;transition:all 0.2s;}
+    .cs-input:focus,.cs-select:focus,.cs-textarea:focus{border-color:#059669;background:white;box-shadow:0 0 0 4px rgba(5,150,105,0.1);}
+    .cs-textarea{resize:none;}
+    .cs-pw-wrap{position:relative;}
+    .cs-pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:#94A3B8;}
+    .cs-error-banner{background:#FFF1F2;border:1.5px solid #FECDD3;border-radius:12px;padding:10px 14px;margin-bottom:14px;color:#E11D48;font-weight:700;font-size:0.83rem;display:flex;align-items:center;gap:8px;}
+    .cs-row-btns{display:flex;gap:12px;margin-top:8px;}
+    .cs-btn-back{padding:12px 22px;border-radius:999px;border:2px solid #E2E8F0;background:white;color:#64748B;font-family:'Quicksand',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
+    .cs-btn-back:hover{border-color:#059669;color:#059669;}
+    .cs-btn{flex:1;padding:12px;border-radius:999px;border:none;background:linear-gradient(135deg,#059669,#0EA5E9);color:white;font-family:'Quicksand',sans-serif;font-size:0.95rem;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(5,150,105,0.35);transition:all 0.25s;position:relative;overflow:hidden;}
+    .cs-btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.2);transform:translateX(-100%);transition:transform 0.4s;}
+    .cs-btn:hover::after{transform:translateX(100%);}
+    .cs-btn:hover{transform:translateY(-2px);}
+    .cs-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+    .cs-spinner{display:inline-block;width:15px;height:15px;border:3px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:csSpin 0.7s linear infinite;margin-right:8px;vertical-align:middle;}
+    @keyframes csSpin{to{transform:rotate(360deg)}}
+    .exp-overlay{position:fixed;inset:0;z-index:300;background:rgba(15,23,42,0.65);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px;animation:expFade 0.2s ease;}
+    @keyframes expFade{from{opacity:0}to{opacity:1}}
+    .exp-modal{background:white;border-radius:28px;padding:44px 36px;max-width:480px;width:100%;text-align:center;box-shadow:0 32px 80px rgba(0,0,0,0.25);animation:expPop 0.4s cubic-bezier(.34,1.56,.64,1);}
+    @keyframes expPop{from{opacity:0;transform:scale(0.85) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .exp-emoji{font-size:3.5rem;margin-bottom:16px;animation:expBounce 2s ease-in-out infinite;}
+    @keyframes expBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .exp-modal h2{font-family:'Baloo 2',cursive;font-size:1.6rem;font-weight:800;color:#0F172A;margin-bottom:10px;}
+    .exp-modal p{color:#64748B;font-size:0.9rem;line-height:1.6;margin-bottom:28px;}
+    .exp-choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;}
+    .exp-choice{border:2px solid #E2E8F0;border-radius:20px;padding:22px 16px;cursor:pointer;transition:all 0.25s cubic-bezier(.34,1.56,.64,1);text-align:center;}
+    .exp-choice:hover{transform:translateY(-4px);}
+    .exp-choice.yes{border-color:#34D399;}
+    .exp-choice.yes:hover{background:#F0FDF4;box-shadow:0 8px 24px rgba(52,211,153,0.25);}
+    .exp-choice.no{border-color:#FB7185;}
+    .exp-choice.no:hover{background:#FFF1F2;box-shadow:0 8px 24px rgba(251,113,133,0.25);}
+    .exp-choice-emoji{font-size:2.5rem;display:block;margin-bottom:10px;}
+    .exp-choice-title{font-family:'Baloo 2',cursive;font-size:1.05rem;font-weight:800;color:#0F172A;margin-bottom:4px;}
+    .exp-choice-desc{font-size:0.78rem;color:#64748B;}
+    .exp-note{font-size:0.8rem;color:#94A3B8;font-style:italic;}
+    @media(max-width:700px){.cs-card{grid-template-columns:1fr;}.cs-left{display:none;}.cs-right{padding:28px 20px;}.cs-grid-2{grid-template-columns:1fr;}.exp-choices{grid-template-columns:1fr;}}
+  `;
+  document.head.appendChild(style);
+};
+
+export default function CaretakerSignup() {
+  const navigate = useNavigate();
+  const { signup } = useAuth();
+  const [step, setStep]       = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError]     = useState('');
+  const [showPw, setShowPw]   = useState(false);
+  const [showExpPopup, setShowExpPopup] = useState(false);
+  const [name, setName]         = useState('');
+  const [email, setEmail]       = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm]   = useState('');
+  const [phone, setPhone]           = useState('');
+  const [city, setCity]             = useState('Ahmedabad');
+  const [experience, setExperience] = useState('1-2 years');
+  const [skills, setSkills]         = useState('');
+  const [bio, setBio]               = useState('');
+
+  useEffect(() => { injectCSS(); }, []);
+
+  const validateStep1 = () => {
+    if (!name.trim())         { setError('Please enter your full name.'); return false; }
+    if (!email.includes('@')) { setError('Please enter a valid email.'); return false; }
+    if (password.length < 6)  { setError('Password must be at least 6 characters.'); return false; }
+    if (password !== confirm)  { setError('Passwords do not match.'); return false; }
+    return true;
+  };
+
+  const handleNext = () => { setError(''); if (validateStep1()) setStep(2); };
+
+  const handleSubmit = async () => {
+    setError('');
+    if (!phone.trim()) { setError('Please enter your phone number.'); return; }
+    setLoading(true);
+    await new Promise(r => setTimeout(r, 700));
+    try {
+      const result = await signup({ name, email, password, phone, city, experience, skills: skills.split(',').map(s=>s.trim()).filter(Boolean), bio, role: 'caretaker', avatar: '👩‍🍼', createdAt: new Date().toISOString() });
+      if (!result || !result.success) { setError(result?.message || 'Signup failed.'); return; }
+      setShowExpPopup(true);
+    } catch (err) { setError(err?.message || 'Signup failed.'); } finally { setLoading(false); }
+  };
+
+  const handleExperience = (hasExp) => {
+    setShowExpPopup(false);
+    if (hasExp) { navigate('/caretaker-dashboard', { replace: true }); } 
+    else { navigate('/training', { replace: true }); }
+  };
+
+  const cities = ['Ahmedabad','Surat','Vadodara','Rajkot','Gandhinagar','Mumbai','Delhi','Bangalore','Pune','Chennai'];
+  const expOptions = ['Less than 1 year','1-2 years','3-5 years','5-8 years','8-10 years','10+ years'];
+  const stepLabels = ['Account','Professional','Done'];
+
+  return (
+    <div className="cs-root">
+      <div className="cs-blob cs-blob-1" /><div className="cs-blob cs-blob-2" />
+      <div className="cs-card">
+        <div className="cs-left">
+          <div className="cs-left-emoji">👩‍🍼</div>
+          <h2>Join as Caretaker</h2>
+          <p>Start earning by providing quality childcare to families near you.</p>
+          {[['💰','Earn ₹300–₹500 per hour'],['📅','Flexible work schedule'],['🎓','Free training provided'],['⭐','Build your reputation'],['🔒','Secure payments always']].map(([icon,text]) => (
+            <div className="cs-feat" key={text}><div className="cs-feat-icon">{icon}</div><div className="cs-feat-text">{text}</div></div>
+          ))}
+          <div className="cs-left-footer">Already have an account? <Link to="/login">Login here</Link></div>
+        </div>
+        <div className="cs-right">
+          <div className="cs-steps">
+            {stepLabels.map((s,i) => (
+              <React.Fragment key={s}>
+                <div style={{textAlign:'center'}}>
+                  <div className={`cs-dot ${i+1<step?'done':i+1===step?'active':'pending'}`}>{i+1<step?'✓':i+1}</div>
+                  <div style={{fontSize:'0.7rem',fontWeight:700,color:'#94A3B8',marginTop:3}}>{s}</div>
+                </div>
+                {i<stepLabels.length-1 && <div className={`cs-line ${i+1<step?'done':''}`}/>}
+              </React.Fragment>
+            ))}
+          </div>
+          {error && <div className="cs-error-banner">⚠️ {error}</div>}
+          {step === 1 && (
+            <>
+              <div className="cs-title">Create Your Account 🌟</div>
+              <div className="cs-sub">Set up your caretaker profile</div>
+              <div className="cs-field"><label className="cs-label">Full Name</label><input className="cs-input" placeholder="Your full name" value={name} onChange={e=>setName(e.target.value)} /></div>
+              <div className="cs-field"><label className="cs-label">Email Address</label><input className="cs-input" type="email" placeholder="your@email.com" value={email} onChange={e=>setEmail(e.target.value)} /></div>
+              <div className="cs-grid-2">
+                <div className="cs-field" style={{marginBottom:0}}>
+                  <label className="cs-label">Password</label>
+                  <div className="cs-pw-wrap">
+                    <input className="cs-input" type={showPw?'text':'password'} placeholder="Min. 6 chars" value={password} onChange={e=>setPassword(e.target.value)} style={{paddingRight:42}} />
+                    <button type="button" className="cs-pw-eye" onClick={()=>setShowPw(v=>!v)}>{showPw?'🙈':'👁️'}</button>
+                  </div>
+                </div>
+                <div className="cs-field" style={{marginBottom:0}}><label className="cs-label">Confirm Password</label><input className="cs-input" type="password" placeholder="Re-enter" value={confirm} onChange={e=>setConfirm(e.target.value)} /></div>
+              </div>
+              <div style={{marginTop:22}}><button className="cs-btn" onClick={handleNext}>Continue →</button></div>
+            </>
+          )}
+          {step === 2 && (
+            <>
+              <div className="cs-title">Professional Details 💼</div>
+              <div className="cs-sub">Tell families about your experience</div>
+              <div className="cs-grid-2">
+                <div className="cs-field" style={{marginBottom:0}}><label className="cs-label">Phone Number</label><input className="cs-input" placeholder="+91 98765 43210" value={phone} onChange={e=>setPhone(e.target.value)} /></div>
+                <div className="cs-field" style={{marginBottom:0}}><label className="cs-label">City</label><select className="cs-select" value={city} onChange={e=>setCity(e.target.value)}>{cities.map(c=><option key={c}>{c}</option>)}</select></div>
+              </div>
+              <div className="cs-field" style={{marginTop:14}}><label className="cs-label">Years of Experience</label><select className="cs-select" value={experience} onChange={e=>setExperience(e.target.value)}>{expOptions.map(o=><option key={o}>{o}</option>)}</select></div>
+              <div className="cs-field"><label className="cs-label">Skills (comma separated)</label><input className="cs-input" placeholder="e.g. Toddler Care, First Aid, Cooking" value={skills} onChange={e=>setSkills(e.target.value)} /></div>
+              <div className="cs-field"><label className="cs-label">About You (optional)</label><textarea className="cs-textarea" rows={3} placeholder="Tell parents a bit about yourself..." value={bio} onChange={e=>setBio(e.target.value)} /></div>
+              <div className="cs-row-btns">
+                <button className="cs-btn-back" onClick={()=>setStep(1)}>← Back</button>
+                <button className="cs-btn" onClick={handleSubmit} disabled={loading}>{loading?<><span className="cs-spinner"/>Creating...</>:'🎉 Create Account'}</button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+      {showExpPopup && (
+        <div className="exp-overlay">
+          <div className="exp-modal">
+            <div className="exp-emoji">🤔</div>
+            <h2>One Quick Question!</h2>
+            <p>Do you have prior experience in childcare? This helps us direct you to the right place to get started.</p>
+            <div className="exp-choices">
+              <div className="exp-choice yes" onClick={() => handleExperience(true)}>
+                <span className="exp-choice-emoji">✅</span><div className="exp-choice-title">Yes, I do!</div><div className="exp-choice-desc">I have hands-on childcare experience and I'm ready to work</div>
+              </div>
+              <div className="exp-choice no" onClick={() => handleExperience(false)}>
+                <span className="exp-choice-emoji">🌱</span><div className="exp-choice-title">I'm New</div><div className="exp-choice-desc">I'm new to childcare — take me to training first</div>
+              </div>
+            </div>
+            <div className="exp-note">💡 Even experienced caretakers can complete training to get a verified badge!</div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+================================================================================
+FILE 10: AdminSignup.jsx (UPDATED)
+LOCATION: Childcare/frontend/src/pages/AdminSignup.jsx
+================================================================================
+
+// File Path: src/pages/AdminSignup.jsx
+// FIXED: navigate path changed from '/admin-dashboard' to '/dashboard/admin'
+
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+
+const ADMIN_SECRET = 'CHILDCARE@ADMIN2026';
+
+const Field = ({ label, name, type='text', placeholder, value, onChange, error, rightEl }) => (
+  <div style={{marginBottom:'15px'}}>
+    <label style={fl.label}>{label}</label>
+    <div style={{position:'relative'}}>
+      <input name={name} type={type} placeholder={placeholder} value={value} onChange={onChange}
+        style={{...fl.input,borderColor:error?'#FF5252':'#E3F2FD',paddingRight:rightEl?'46px':'16px'}}/>
+      {rightEl}
+    </div>
+    {error&&<span style={fl.err}>{error}</span>}
+  </div>
+);
+const fl={
+  label:{display:'block',fontWeight:700,color:'#1A237E',fontSize:'0.78rem',marginBottom:'6px',textTransform:'uppercase',letterSpacing:'0.4px',fontFamily:"'Nunito',sans-serif"},
+  input:{width:'100%',padding:'12px 16px',border:'2px solid #E3F2FD',borderRadius:'13px',fontFamily:"'Nunito',sans-serif",fontSize:'0.93rem',color:'#37474F',background:'#F8FBFF',outline:'none',transition:'border-color 0.2s',boxSizing:'border-box'},
+  err:{color:'#FF5252',fontSize:'0.75rem',fontWeight:700,marginTop:'4px',display:'block'},
+};
+
+const AdminSignup = () => {
+  const navigate = useNavigate();
+  const { signup } = useAuth();
+  const [loading,  setLoading]  = useState(false);
+  const [errors,   setErrors]   = useState({});
+  const [showPass, setShowPass] = useState(false);
+  const [showCode, setShowCode] = useState(false);
+  const [done,     setDone]     = useState(false);
+  const [form,     setForm]     = useState({ fullName:'', email:'', password:'', confirmPassword:'', adminCode:'' });
+
+  const change = e => {const{name,value}=e.target;setForm(p=>({...p,[name]:value}));if(errors[name])setErrors(p=>({...p,[name]:''}));};
+
+  const validate = () => {
+    const errs={};
+    if(!form.fullName.trim())                    errs.fullName='Full name required';
+    if(!form.email)                              errs.email='Email required';
+    else if(!/\S+@\S+\.\S+/.test(form.email))   errs.email='Invalid email';
+    if(!form.password)                           errs.password='Password required';
+    else if(form.password.length<6)              errs.password='Min 6 characters';
+    if(form.confirmPassword!==form.password)     errs.confirmPassword='Passwords do not match';
+    if(!form.adminCode.trim())                   errs.adminCode='Admin secret code is required';
+    else if(form.adminCode.trim()!==ADMIN_SECRET) errs.adminCode='❌ Invalid admin code. Access denied.';
+    setErrors(errs);return Object.keys(errs).length===0;
+  };
+
+  const handleSubmit = async () => {
+    if(!validate())return;
+    setLoading(true);
+    try {
+      const result = await signup({ fullName: form.fullName, name: form.fullName, email: form.email, password: form.password, role: 'admin', avatar: '🔐', createdAt: new Date().toISOString() });
+      if (!result || !result.success) { setErrors({ general: result?.message || 'Signup failed.' }); setLoading(false); return; }
+      setDone(true);
+      setTimeout(() => navigate('/admin-dashboard', { replace: true }), 2200);
+    } catch(err){ setErrors({general:err?.message || 'Signup failed'}); setLoading(false); }
+  };
+
+  return (
+    <div style={s.page}>
+      <div style={s.blob1}/><div style={s.blob2}/>
+      <div style={s.card}>
+        <div style={s.left}>
+          <div style={s.leftInner}>
+            <span style={s.leftEmoji}>🔐</span>
+            <h1 style={s.leftTitle}>Admin Access</h1>
+            <p style={s.leftSub}>This area is restricted to authorised system administrators only.</p>
+            <div style={s.warningBox}>
+              <span style={{fontSize:'1.4rem'}}>⚠️</span>
+              <p style={s.warningText}>You must have a valid admin secret code to create an admin account.</p>
+            </div>
+            <div style={s.perks}>
+              {[['👥','Manage all users'],['📅','View all bookings'],['💰','Access full revenue data'],['⚙️','System settings & reports'],['🔒','Approve caretakers']].map(([icon,text],i)=>(
+                <div key={i} style={s.perk}><span style={s.pIcon}>{icon}</span><span style={s.pText}>{text}</span></div>
+              ))}
+            </div>
+            <p style={s.leftNote}>Already an admin? <Link to="/login" style={s.leftLink}>Login here</Link></p>
+          </div>
+          <div style={s.dc1}/><div style={s.dc2}/>
+        </div>
+        <div style={s.right}>
+          {!done ? (
+            <div style={s.fadeIn}>
+              <div style={s.headerRow}><div style={s.adminBadge}>🔐 Admin Registration</div></div>
+              <h2 style={s.title}>Create Admin Account</h2>
+              <p style={s.sub}>Fill in your details and enter the secret admin code</p>
+              {errors.general&&<div style={s.errBanner}>⚠️ {errors.general}</div>}
+              <Field label="👤 Full Name" name="fullName" placeholder="Administrator name" value={form.fullName} onChange={change} error={errors.fullName}/>
+              <Field label="📧 Email"     name="email"    type="email" placeholder="admin@childcare.com" value={form.email} onChange={change} error={errors.email}/>
+              <div style={{display:'flex',gap:'12px'}}>
+                <div style={{flex:1}}><Field label="🔒 Password" name="password" type={showPass?'text':'password'} placeholder="Min 6 characters" value={form.password} onChange={change} error={errors.password} rightEl={<button type="button" style={s.eyeBtn} onClick={()=>setShowPass(p=>!p)}>{showPass?'🙈':'👁️'}</button>}/></div>
+                <div style={{flex:1}}><Field label="🔒 Confirm" name="confirmPassword" type="password" placeholder="Repeat password" value={form.confirmPassword} onChange={change} error={errors.confirmPassword}/></div>
+              </div>
+              <div style={s.secretWrap}>
+                <div style={s.secretHeader}><span style={s.secretIcon}>🔑</span><div><p style={s.secretTitle}>Admin Secret Code</p><p style={s.secretNote}>Contact the system owner to get this code</p></div></div>
+                <div style={{position:'relative'}}>
+                  <input name="adminCode" type={showCode?'text':'password'} placeholder="Enter secret admin code" value={form.adminCode} onChange={change}
+                    style={{...fl.input, borderColor:errors.adminCode?'#FF5252':form.adminCode===ADMIN_SECRET&&form.adminCode?'#43A047':'#FFD54F', background:errors.adminCode?'#FFF3F0':form.adminCode===ADMIN_SECRET&&form.adminCode?'#E8F5E9':'#FFFDE7', paddingRight:'46px'}} />
+                  <button type="button" style={s.eyeBtn} onClick={()=>setShowCode(c=>!c)}>{showCode?'🙈':'👁️'}</button>
+                </div>
+                {errors.adminCode&&<span style={fl.err}>{errors.adminCode}</span>}
+                {form.adminCode===ADMIN_SECRET&&form.adminCode&&(<span style={s.validCode}>✅ Valid admin code!</span>)}
+              </div>
+              <button style={s.btnAdmin} onClick={handleSubmit} disabled={loading}>
+                {loading ?<span style={{display:'flex',alignItems:'center',gap:'8px',justifyContent:'center'}}><span style={s.spinner}/>Creating admin account...</span> :'🔐 Create Admin Account'}
+              </button>
+              <p style={s.note}>Already have an account? <Link to="/login" style={s.link}>Login</Link></p>
+            </div>
+          ) : (
+            <div style={{...s.fadeIn,textAlign:'center',padding:'40px 20px'}}>
+              <span style={s.doneEmoji}>🎉</span>
+              <h2 style={s.doneTitle}>Admin Account Created!</h2>
+              <p style={s.doneSub}>Welcome, <strong>{form.fullName}</strong>!</p>
+              <p style={s.doneNote}>Taking you to the Admin Dashboard...</p>
+              <div style={s.doneBar}><div style={s.doneBarFill}/></div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const F="'Nunito',sans-serif";
+const s={
+  page:{minHeight:'100vh',background:'linear-gradient(135deg,#FFD54F 0%,#FF8F00 40%,#1A237E 100%)',display:'flex',alignItems:'center',justifyContent:'center',padding:'24px 16px',fontFamily:F,position:'relative',overflow:'hidden'},
+  blob1:{position:'fixed',top:'-100px',left:'-100px',width:'300px',height:'300px',borderRadius:'50%',background:'radial-gradient(circle,rgba(255,255,255,0.15) 0%,transparent 70%)',pointerEvents:'none',animation:'floatBlob 8s ease-in-out infinite'},
+  blob2:{position:'fixed',bottom:'-80px',right:'-80px',width:'260px',height:'260px',borderRadius:'50%',background:'radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%)',pointerEvents:'none',animation:'floatBlob 10s ease-in-out infinite reverse'},
+  card:{display:'grid',gridTemplateColumns:'1fr 1.2fr',maxWidth:'960px',width:'100%',borderRadius:'28px',overflow:'hidden',boxShadow:'0 40px 80px rgba(26,35,126,0.3)',zIndex:1,position:'relative',animation:'popIn 0.6s cubic-bezier(0.34,1.56,0.64,1)'},
+  left:{background:'linear-gradient(135deg,#1A237E 0%,#283593 60%,#3949AB 100%)',padding:'44px 34px',display:'flex',flexDirection:'column',justifyContent:'center',position:'relative',overflow:'hidden'},
+  leftInner:{position:'relative',zIndex:1},
+  leftEmoji:{fontSize:'3rem',display:'block',marginBottom:'14px',animation:'bounceIn 0.8s cubic-bezier(0.34,1.56,0.64,1)'},
+  leftTitle:{fontFamily:"'Fredoka One',cursive",fontSize:'1.75rem',color:'white',margin:'0 0 10px'},
+  leftSub:{color:'rgba(255,255,255,0.7)',fontSize:'0.86rem',lineHeight:1.6,margin:'0 0 18px',fontWeight:600},
+  warningBox:{background:'rgba(255,213,79,0.15)',border:'1px solid rgba(255,213,79,0.4)',borderRadius:'14px',padding:'14px 16px',display:'flex',gap:'12px',alignItems:'flex-start',marginBottom:'20px'},
+  warningText:{color:'rgba(255,255,255,0.82)',fontSize:'0.82rem',fontWeight:600,lineHeight:1.5,margin:0},
+  perks:{display:'flex',flexDirection:'column',gap:'9px',marginBottom:'22px'},
+  perk:{display:'flex',alignItems:'center',gap:'10px'},
+  pIcon:{width:'30px',height:'30px',borderRadius:'8px',background:'rgba(255,255,255,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'0.9rem',flexShrink:0},
+  pText:{color:'rgba(255,255,255,0.8)',fontSize:'0.83rem',fontWeight:600},
+  leftNote:{color:'rgba(255,255,255,0.5)',fontSize:'0.82rem',fontWeight:600},
+  leftLink:{color:'#FFD54F',fontWeight:800,textDecoration:'none'},
+  dc1:{position:'absolute',top:'-60px',right:'-60px',width:'180px',height:'180px',borderRadius:'50%',background:'rgba(255,255,255,0.06)',pointerEvents:'none'},
+  dc2:{position:'absolute',bottom:'-40px',left:'-40px',width:'130px',height:'130px',borderRadius:'50%',background:'rgba(255,255,255,0.06)',pointerEvents:'none'},
+  right:{background:'white',padding:'36px 40px',overflowY:'auto',maxHeight:'100vh'},
+  fadeIn:{animation:'fadeUp 0.4s ease'},
+  headerRow:{marginBottom:'16px'},
+  adminBadge:{display:'inline-flex',alignItems:'center',gap:'8px',background:'linear-gradient(135deg,#FFF8E1,#FFF3E0)',border:'2px solid #FFD54F',borderRadius:'999px',padding:'8px 18px',fontWeight:800,color:'#F57F17',fontSize:'0.85rem',fontFamily:F},
+  title:{fontFamily:"'Fredoka One',cursive",fontSize:'1.5rem',color:'#1A237E',margin:'0 0 4px'},
+  sub:{color:'#90A4AE',fontSize:'0.86rem',fontWeight:600,margin:'0 0 20px'},
+  errBanner:{background:'#FFF3F0',border:'1.5px solid #FFAB91',borderRadius:'12px',padding:'11px 16px',color:'#E64A19',fontWeight:700,fontSize:'0.84rem',marginBottom:'14px'},
+  eyeBtn:{position:'absolute',right:'13px',top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',fontSize:'1rem',padding:0},
+  secretWrap:{background:'linear-gradient(135deg,#FFF8E1,#FFFDE7)',border:'2px solid #FFD54F',borderRadius:'16px',padding:'18px',marginBottom:'20px'},
+  secretHeader:{display:'flex',alignItems:'flex-start',gap:'12px',marginBottom:'14px'},
+  secretIcon:{fontSize:'1.8rem',flexShrink:0},
+  secretTitle:{fontWeight:800,color:'#F57F17',fontSize:'0.9rem',margin:'0 0 3px',fontFamily:F},
+  secretNote:{color:'#90A4AE',fontSize:'0.78rem',fontWeight:600,margin:0,fontFamily:F},
+  validCode:{color:'#43A047',fontSize:'0.78rem',fontWeight:700,marginTop:'5px',display:'block'},
+  btnAdmin:{width:'100%',background:'linear-gradient(135deg,#FFD54F,#FF8F00)',color:'#1A237E',border:'none',padding:'15px',borderRadius:'999px',fontFamily:F,fontWeight:800,fontSize:'0.97rem',cursor:'pointer',boxShadow:'0 6px 18px rgba(255,143,0,0.4)',transition:'all 0.2s',marginBottom:'14px'},
+  spinner:{display:'inline-block',width:'16px',height:'16px',border:'3px solid rgba(26,35,126,0.3)',borderTopColor:'#1A237E',borderRadius:'50%',animation:'spin 0.7s linear infinite'},
+  note:{textAlign:'center',color:'#90A4AE',fontSize:'0.84rem',fontWeight:600,margin:'4px 0

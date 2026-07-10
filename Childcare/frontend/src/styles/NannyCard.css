@@ -1,0 +1,209 @@
+.nanny-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.nanny-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.nanny-card-header {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.nanny-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nanny-badge-container {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+}
+
+.badge-verified {
+    background: rgba(76, 175, 80, 0.9);
+    color: white;
+}
+
+.badge-featured {
+    background: rgba(255, 193, 7, 0.9);
+    color: #333;
+}
+
+.nanny-card-body {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.nanny-name {
+    font-size: 1.5rem;
+    margin: 0 0 8px 0;
+    color: #2c3e50;
+}
+
+.nanny-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.stars {
+    font-size: 1rem;
+}
+
+.rating-text {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.nanny-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.info-icon {
+    font-size: 1.2rem;
+}
+
+.nanny-specialties {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.specialty-tag {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.nanny-availability {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+.availability-label {
+    font-weight: 600;
+    color: #555;
+    margin-right: 6px;
+}
+
+.availability-days {
+    color: #666;
+}
+
+.nanny-rate {
+    margin-bottom: 12px;
+}
+
+.rate-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4caf50;
+}
+
+.nanny-bio {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 auto 0;
+}
+
+.nanny-card-footer {
+    padding: 0 20px 20px 20px;
+    display: flex;
+    gap: 12px;
+}
+
+.nanny-card-footer .btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5568d3;
+}
+
+.btn-secondary {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-secondary:hover {
+    background: #f5f7ff;
+}
+
+
+/* List view styles */
+
+.nanny-grid.list .nanny-card {
+    flex-direction: row;
+    height: auto;
+}
+
+.nanny-grid.list .nanny-card-header {
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+}
+
+.nanny-grid.list .nanny-card-body {
+    flex: 1;
+}
+
+.nanny-grid.list .nanny-card-footer {
+    padding: 20px;
+    flex-direction: column;
+    width: 200px;
+}
